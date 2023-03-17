@@ -11,14 +11,19 @@ struct Opts {
 
 impl Opts {
     pub fn inquire() -> Self {
-        let n: i32 = Text::new("Number of nim piles:")
+        let lvl: u8 = Text::new("Level:")
             .prompt()
             .unwrap()
             .parse()
             .unwrap();
 
-        let bits = 3;
-
+        let (n, bits) = match lvl {
+            1 => (2, 3),
+            2 => (4, 3),
+            3 => (8, 3),
+            4 => (8, 4),
+            _ => panic!("Level must be between 1 and 4 (inclusive)"),
+        };
         Opts { n, bits }
     }
 }
@@ -50,6 +55,10 @@ fn main() -> Result<(), Box<dyn Error>> {
             }
             println!();
         }
+        for i in 0..g.len() {
+            print!("{} ", i);
+        }
+        println!();
 
         
         let user_answer: u8 = Text::new("Xor:").prompt().unwrap().parse().unwrap();
